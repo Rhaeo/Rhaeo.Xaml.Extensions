@@ -35,9 +35,19 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <None Include="FatcowIcons.linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fatcow16x16Icons.generated.cs" />
+    <Compile Include="Fatcow16x16IconsExtension.generated.cs" />
+    <Compile Include="Fatcow32x32Icons.generated.cs" />
+    <Compile Include="Fatcow32x32IconsExtension.generated.cs" />
+    <Compile Include="FatcowIcons.generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Fatcow16x16Icons.generated.png" />
+    <EmbeddedResource Include="Fatcow32x32Icons.generated.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
