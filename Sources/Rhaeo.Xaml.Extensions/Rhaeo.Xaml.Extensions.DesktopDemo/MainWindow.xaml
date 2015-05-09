@@ -3,5 +3,5 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ext="clr-namespace:Rhaeo.Xaml.Extensions;assembly=Rhaeo.Xaml.Extensions"
         Title="MainWindow" Height="350" Width="525">
-  <Image Source="{ext:Fatcow16x16Icons NoteAdd}" Stretch="None" />
+  <Image Source="{ext:Fatcow16x16Icons NoteAdd}" Stretch="None" UseLayoutRounding="True" />
 </Window>

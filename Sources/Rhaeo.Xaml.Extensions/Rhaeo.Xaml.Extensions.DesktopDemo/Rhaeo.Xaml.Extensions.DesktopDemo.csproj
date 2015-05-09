@@ -93,6 +93,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Rhaeo.Xaml.Extensions\Rhaeo.Xaml.Extensions.csproj">
+      <Project>{ae165d0c-98e2-4eb8-8ad5-8676f7817d25}</Project>
+      <Name>Rhaeo.Xaml.Extensions</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
