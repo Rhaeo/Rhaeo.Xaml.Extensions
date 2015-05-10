@@ -64,19 +64,19 @@ void Main()
 			
 			using (var adhocWorkspace = new AdhocWorkspace())
 			{
-				var compilationUnit = Formatter.Format(
+				var compilationUnit =
+				Formatter.Format(
 				  SyntaxFactory.CompilationUnit()
-				  	.AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.IdentifierName("System")))
-					.AddMembers(SyntaxFactory.NamespaceDeclaration(SyntaxFactory.IdentifierName("Rhaeo.Xaml.Extensions")))
+				  	.AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.IdentifierName("System.CodeDom.Compiler")))
+					.AddMembers(
+					  SyntaxFactory.NamespaceDeclaration(SyntaxFactory.IdentifierName(directoryName))
+					  	.AddMembers()
+					)
 				  , adhocWorkspace);
 				compilationUnit.ToString().Dump(String.Format("{0}{1}x{2}Icons.generated.cs", publisher, w, h));
 			}
 			
 			var stringBuilder = new StringBuilder();
-			stringBuilder.AppendLine("using System.CodeDom.Compiler;");
-			stringBuilder.AppendLine();
-			stringBuilder.AppendFormat("namespace {0}", directoryName).AppendLine();
-			stringBuilder.AppendLine("{");
 			stringBuilder.AppendFormat("\t/// <summary>").AppendLine();
 			stringBuilder.AppendFormat("\t/// Enumerates the indices of icons in the {0} {1} {2}x{3} sprite.", publisher, version, w, h).AppendLine();
 			stringBuilder.AppendFormat("\t/// </summary>").AppendLine();
