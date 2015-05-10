@@ -7,6 +7,11 @@
   <Reference Relative="..\packages\Microsoft.CodeAnalysis.Common.1.0.0-rc2\lib\net45\Microsoft.CodeAnalysis.dll">&lt;MyDocuments&gt;\GitHub\Rhaeo.Xaml.Extensions\Sources\Rhaeo.Xaml.Extensions\packages\Microsoft.CodeAnalysis.Common.1.0.0-rc2\lib\net45\Microsoft.CodeAnalysis.dll</Reference>
   <Reference Relative="..\packages\Microsoft.CodeAnalysis.Workspaces.Common.1.0.0-rc2\lib\net45\Microsoft.CodeAnalysis.Workspaces.Desktop.dll">&lt;MyDocuments&gt;\GitHub\Rhaeo.Xaml.Extensions\Sources\Rhaeo.Xaml.Extensions\packages\Microsoft.CodeAnalysis.Workspaces.Common.1.0.0-rc2\lib\net45\Microsoft.CodeAnalysis.Workspaces.Desktop.dll</Reference>
   <Reference Relative="..\packages\Microsoft.CodeAnalysis.Workspaces.Common.1.0.0-rc2\lib\net45\Microsoft.CodeAnalysis.Workspaces.dll">&lt;MyDocuments&gt;\GitHub\Rhaeo.Xaml.Extensions\Sources\Rhaeo.Xaml.Extensions\packages\Microsoft.CodeAnalysis.Workspaces.Common.1.0.0-rc2\lib\net45\Microsoft.CodeAnalysis.Workspaces.dll</Reference>
+  <Reference Relative="..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.AttributedModel.dll">&lt;MyDocuments&gt;\GitHub\Rhaeo.Xaml.Extensions\Sources\Rhaeo.Xaml.Extensions\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.AttributedModel.dll</Reference>
+  <Reference Relative="..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.Convention.dll">&lt;MyDocuments&gt;\GitHub\Rhaeo.Xaml.Extensions\Sources\Rhaeo.Xaml.Extensions\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.Convention.dll</Reference>
+  <Reference Relative="..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.Hosting.dll">&lt;MyDocuments&gt;\GitHub\Rhaeo.Xaml.Extensions\Sources\Rhaeo.Xaml.Extensions\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.Hosting.dll</Reference>
+  <Reference Relative="..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.Runtime.dll">&lt;MyDocuments&gt;\GitHub\Rhaeo.Xaml.Extensions\Sources\Rhaeo.Xaml.Extensions\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.Runtime.dll</Reference>
+  <Reference Relative="..\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.TypedParts.dll">&lt;MyDocuments&gt;\GitHub\Rhaeo.Xaml.Extensions\Sources\Rhaeo.Xaml.Extensions\packages\Microsoft.Composition.1.0.27\lib\portable-net45+win8+wp8+wpa81\System.Composition.TypedParts.dll</Reference>
   <Reference>&lt;RuntimeDirectory&gt;\WPF\WindowsBase.dll</Reference>
   <Namespace>Microsoft.CodeAnalysis</Namespace>
   <Namespace>Microsoft.CodeAnalysis.CSharp</Namespace>
@@ -57,7 +62,15 @@ void Main()
 			var w = bitmaps.First().Key.Width;
 			var h = bitmaps.First().Key.Height;
 			
-			var compilationUnit = SyntaxFactory.CompilationUnit();
+			using (var adhocWorkspace = new AdhocWorkspace())
+			{
+				var compilationUnit = Formatter.Format(
+				  SyntaxFactory.CompilationUnit()
+				  	.AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.IdentifierName("System")))
+					.AddMembers(SyntaxFactory.NamespaceDeclaration(SyntaxFactory.IdentifierName("Rhaeo.Xaml.Extensions")))
+				  , adhocWorkspace);
+				compilationUnit.ToString().Dump(String.Format("{0}{1}x{2}Icons.generated.cs", publisher, w, h));
+			}
 			
 			var stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("using System.CodeDom.Compiler;");
