@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rhaeo.Xaml.Extensions.Deskt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rhaeo.Xaml.Extensions", "Rhaeo.Xaml.Extensions\Rhaeo.Xaml.Extensions.csproj", "{AE165D0C-98E2-4EB8-8AD5-8676F7817D25}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rhaeo.Xaml.Roslyn", "Rhaeo.Xaml.Roslyn\Rhaeo.Xaml.Roslyn.csproj", "{73F14A17-D1B1-4A25-A18C-3B51D03D1A4A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{AE165D0C-98E2-4EB8-8AD5-8676F7817D25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE165D0C-98E2-4EB8-8AD5-8676F7817D25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE165D0C-98E2-4EB8-8AD5-8676F7817D25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73F14A17-D1B1-4A25-A18C-3B51D03D1A4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73F14A17-D1B1-4A25-A18C-3B51D03D1A4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73F14A17-D1B1-4A25-A18C-3B51D03D1A4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73F14A17-D1B1-4A25-A18C-3B51D03D1A4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
