@@ -1,5 +1,17 @@
 <Query Kind="Program">
+  <Reference Relative="..\packages\Microsoft.CodeAnalysis.CSharp.1.0.0-rc2\lib\net45\Microsoft.CodeAnalysis.CSharp.Desktop.dll">&lt;MyDocuments&gt;\GitHub\Rhaeo.Xaml.Extensions\Sources\Rhaeo.Xaml.Extensions\packages\Microsoft.CodeAnalysis.CSharp.1.0.0-rc2\lib\net45\Microsoft.CodeAnalysis.CSharp.Desktop.dll</Reference>
+  <Reference Relative="..\packages\Microsoft.CodeAnalysis.CSharp.1.0.0-rc2\lib\net45\Microsoft.CodeAnalysis.CSharp.dll">&lt;MyDocuments&gt;\GitHub\Rhaeo.Xaml.Extensions\Sources\Rhaeo.Xaml.Extensions\packages\Microsoft.CodeAnalysis.CSharp.1.0.0-rc2\lib\net45\Microsoft.CodeAnalysis.CSharp.dll</Reference>
+  <Reference Relative="..\packages\Microsoft.CodeAnalysis.CSharp.Workspaces.1.0.0-rc2\lib\net45\Microsoft.CodeAnalysis.CSharp.Workspaces.Desktop.dll">&lt;MyDocuments&gt;\GitHub\Rhaeo.Xaml.Extensions\Sources\Rhaeo.Xaml.Extensions\packages\Microsoft.CodeAnalysis.CSharp.Workspaces.1.0.0-rc2\lib\net45\Microsoft.CodeAnalysis.CSharp.Workspaces.Desktop.dll</Reference>
+  <Reference Relative="..\packages\Microsoft.CodeAnalysis.CSharp.Workspaces.1.0.0-rc2\lib\net45\Microsoft.CodeAnalysis.CSharp.Workspaces.dll">&lt;MyDocuments&gt;\GitHub\Rhaeo.Xaml.Extensions\Sources\Rhaeo.Xaml.Extensions\packages\Microsoft.CodeAnalysis.CSharp.Workspaces.1.0.0-rc2\lib\net45\Microsoft.CodeAnalysis.CSharp.Workspaces.dll</Reference>
+  <Reference Relative="..\packages\Microsoft.CodeAnalysis.Common.1.0.0-rc2\lib\net45\Microsoft.CodeAnalysis.Desktop.dll">&lt;MyDocuments&gt;\GitHub\Rhaeo.Xaml.Extensions\Sources\Rhaeo.Xaml.Extensions\packages\Microsoft.CodeAnalysis.Common.1.0.0-rc2\lib\net45\Microsoft.CodeAnalysis.Desktop.dll</Reference>
+  <Reference Relative="..\packages\Microsoft.CodeAnalysis.Common.1.0.0-rc2\lib\net45\Microsoft.CodeAnalysis.dll">&lt;MyDocuments&gt;\GitHub\Rhaeo.Xaml.Extensions\Sources\Rhaeo.Xaml.Extensions\packages\Microsoft.CodeAnalysis.Common.1.0.0-rc2\lib\net45\Microsoft.CodeAnalysis.dll</Reference>
+  <Reference Relative="..\packages\Microsoft.CodeAnalysis.Workspaces.Common.1.0.0-rc2\lib\net45\Microsoft.CodeAnalysis.Workspaces.Desktop.dll">&lt;MyDocuments&gt;\GitHub\Rhaeo.Xaml.Extensions\Sources\Rhaeo.Xaml.Extensions\packages\Microsoft.CodeAnalysis.Workspaces.Common.1.0.0-rc2\lib\net45\Microsoft.CodeAnalysis.Workspaces.Desktop.dll</Reference>
+  <Reference Relative="..\packages\Microsoft.CodeAnalysis.Workspaces.Common.1.0.0-rc2\lib\net45\Microsoft.CodeAnalysis.Workspaces.dll">&lt;MyDocuments&gt;\GitHub\Rhaeo.Xaml.Extensions\Sources\Rhaeo.Xaml.Extensions\packages\Microsoft.CodeAnalysis.Workspaces.Common.1.0.0-rc2\lib\net45\Microsoft.CodeAnalysis.Workspaces.dll</Reference>
   <Reference>&lt;RuntimeDirectory&gt;\WPF\WindowsBase.dll</Reference>
+  <Namespace>Microsoft.CodeAnalysis</Namespace>
+  <Namespace>Microsoft.CodeAnalysis.CSharp</Namespace>
+  <Namespace>Microsoft.CodeAnalysis.Formatting</Namespace>
+  <Namespace>System</Namespace>
   <Namespace>System.Drawing</Namespace>
   <Namespace>System.IO.Packaging</Namespace>
   <Namespace>System.Net</Namespace>
@@ -14,13 +26,15 @@ void Main()
 	var version = "3.9.2";
 	var publisher = "Fatcow";
 	var tab = "  ";
+	
+	// Download the icon set ZIP archive or use a cached local file.
 	using (var webClient = new WebClient())
 	{
-		zipStream = new MemoryStream();
-		////var buffer = File.ReadAllBytes(String.Format(@"C:\Users\Tomas.Hubelbauer\Downloads\fatcow-hosting-icons-{0}.zip", version));
-		var buffer = webClient.DownloadData(String.Format("http://www.fatcow.com/images/fatcow-icons/fatcow-hosting-icons-{0}.zip", version));
-		zipStream.Write(buffer, 0, buffer.Length);
+		var zipFilePath = String.Format(@"C:\Users\Tomas.Hubelbauer\Downloads\fatcow-hosting-icons-{0}.zip", version);
+		zipStream = new MemoryStream(File.Exists(zipFilePath) ? File.ReadAllBytes(zipFilePath) : webClient.DownloadData(String.Format("http://www.fatcow.com/images/fatcow-icons/fatcow-hosting-icons-{0}.zip", version)));
 	}
+	
+	// Unpack the ZIP archive and process the sprites.
 	using (var zipPackage = ZipArchive.OpenOnStream(zipStream))
 	{
 		var zipFiles = zipPackage.Files.ToArray();
@@ -42,6 +56,9 @@ void Main()
 			var dimension = (Int32)Math.Ceiling(Math.Sqrt(bitmaps.Length));	
 			var w = bitmaps.First().Key.Width;
 			var h = bitmaps.First().Key.Height;
+			
+			var compilationUnit = SyntaxFactory.CompilationUnit();
+			
 			var stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("using System.CodeDom.Compiler;");
 			stringBuilder.AppendLine();
